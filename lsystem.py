@@ -2,11 +2,11 @@ import random
 import copy
 from types import TupleType,ListType
 from lexception import LException
-from lmodule import *
-from lproduction import LProduction
-from lcontext import FSC
+from module import *
+from production import LProduction
+from context import FSC
 from lstring import LString
-from lturtle import LTurtle
+from turtle import Turtle
 
 # Not same as encode as in lcontext
 def flatten(modules):
@@ -151,7 +151,7 @@ class LSystem:
         if self._lastInterpreted <> None:
             return self._lastInterpreted
         
-        self._lastInterpreted = _interpret(self._lstring,self._data,LTurtle())
+        self._lastInterpreted = _interpret(self._lstring, self._data, Turtle())
         return self._lastInterpreted
     
 def _decompose(lstring,data):

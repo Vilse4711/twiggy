@@ -1,4 +1,4 @@
-class LModuleVisitor:
+class ModuleVisitor:
     def __init__(self):
         raise LException("Exception: Pure Abstract class")
 

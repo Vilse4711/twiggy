@@ -2,12 +2,12 @@ from OpenGL.GL import *
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
 from vec3 import Vec3
-from lmodule import *
-from lvisitor import LModuleVisitor
+from module import *
+from visitor import ModuleVisitor
 import copy
 import math
 
-class GLTurtle(LModuleVisitor):
+class GLTurtle(ModuleVisitor):
     def __init__(self):
         self.debug = False
         self.drawing = False

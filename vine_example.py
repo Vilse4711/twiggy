@@ -1,8 +1,8 @@
-from lmodule import *
+from module import *
 from lsystem import LSystem
 from gllsystem import Renderer
-from lcontext import FSC,ASC
-from lproduction import LProduction
+from context import FSC,ASC
+from production import LProduction
 import random
 import sys
 

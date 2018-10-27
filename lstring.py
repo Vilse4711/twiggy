@@ -1,5 +1,5 @@
 from types import TupleType,ListType
-from lmodule import *
+from module import *
 
 class LString:
     def __init__(self,modules):

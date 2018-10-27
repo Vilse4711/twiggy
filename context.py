@@ -1,8 +1,5 @@
-import copy
-from types import ListType,TupleType
-
-from lexception import LException
-from lmodule import *
+from types import ListType, TupleType
+from module import *
 
 def encode(modules):
     new = []
@@ -234,7 +231,7 @@ class FNRC(FSC):
         super(self,NFC).match(modules,mi,direction)
 
 FORWARD = 1
-FBACKWARD = -1
+BACKWARD = -1
 
 class ASC:
     """Actual Standard Context"""

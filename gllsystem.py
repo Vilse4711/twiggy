@@ -1,4 +1,4 @@
-import lmodule
+import module
 from lsystem import LSystem
 from glturtle import *
 import sys

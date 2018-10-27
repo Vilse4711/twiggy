@@ -1,8 +1,8 @@
 import copy
 from vec3 import Vec3
 from lcs import LCS
-from lmodule import *
-from lvisitor import LModuleVisitor
+from module import *
+from visitor import ModuleVisitor
 from lexception import LException
 
 class LTurtleState:
@@ -53,7 +53,7 @@ class LTurtleState:
         cc.ori = self.ori.copy()
         return cc
         
-class LTurtle(LModuleVisitor):
+class Turtle(ModuleVisitor):
     def __init__(self):
         self.state = LTurtleState()
         self.inPoly = False
@@ -159,7 +159,7 @@ class LTurtle(LModuleVisitor):
 
 if __name__ == "__main__":
 
-    turtle = LTurtle()
+    turtle = Turtle()
     f0 = F(100)
     f1 = F(100)
     f2 = F(100)
