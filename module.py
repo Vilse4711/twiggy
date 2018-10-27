@@ -92,6 +92,20 @@ class p(PrimitiveModule):
     def accept(self,v):
         v.visit_p(self)
 
+# Level $-operator
+class l(PrimitiveModule):
+    """Levels the turtle"""
+
+    def __init__(self):
+        pass
+
+    def __repr__(self):
+        return "l()"
+
+    def accept(self, v):
+        v.visit_l(self)
+
+
 # Set width
 class w(PrimitiveModule):
     """Specifies width"""
@@ -104,6 +118,7 @@ class w(PrimitiveModule):
 
     def accept(self,v):
         v.visit_w(self)
+
 
 # Set color
 class c(PrimitiveModule):

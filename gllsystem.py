@@ -1,7 +1,4 @@
-import module
-from lsystem import LSystem
 from glturtle import *
-import sys
 import time
 import math
 from vec3 import Vec3
@@ -72,7 +69,7 @@ class Renderer:
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         glPushMatrix()
 
-        glRotatef(-90, 0.0, 1.0, 0.0)
+        # glRotatef(-90, 0.0, 1.0, 0.0)
         glScalef(self.scale*0.1,self.scale*0.1,self.scale*0.1)
 
         t = GLTurtle()
@@ -85,7 +82,7 @@ class Renderer:
             decompTime = int((time.clock()-t0)*1000)
 
         if lsystem.getCurrentDepth() <= lsystem.getDerivationDepth() and not self.compiled:
-            glRotatef(90,0,0,1)
+            # glRotatef(90,0,0,1)
             t0 = time.clock()
             lastInterpreted = lsystem.interpret()
             interpTime = int((time.clock()-t0)*1000)
@@ -100,7 +97,7 @@ class Renderer:
             displayList = glGenLists(1)
             glNewList(displayList,GL_COMPILE)
             t.debug = self.debug
-            glRotatef(90,0,0,1)
+            #glRotatef(90,0,0,1)
             for module in lastInterpreted:
                 module.accept(t)
             glEndList()
@@ -123,8 +120,8 @@ class Renderer:
         if self.drawCSG:
             glPushAttrib(GL_LIGHTING_BIT)
             glPushMatrix()
-            glRotatef(-90, 0.0, 1.0, 0.0)
-            glRotatef(90, 0.0, 0.0, 1.0)
+            # glRotatef(-90, 0.0, 1.0, 0.0)
+            # glRotatef(90, 0.0, 0.0, 1.0)
             glScalef(self.scale*0.1,self.scale*0.1,self.scale*0.1)
             self.csg.draw(False)
             glPopMatrix()

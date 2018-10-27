@@ -11,6 +11,9 @@ class ModuleVisitor:
     def visit_p(self,module):
         raise LException("Abstract method")
 
+    def visit_l(self,module):
+        raise LException("Abstract method")
+
     def visit_c(self,module):
         raise LException("Abstract method")
 

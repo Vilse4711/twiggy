@@ -34,7 +34,10 @@ class GLTurtle(ModuleVisitor):
     def visit_p(self,module):
         #self.pitch(module.angle)
         pass
-    
+
+    def visit_l(self, module):
+        pass
+
     def visit_c(self,module):
         self.color = module.color
 

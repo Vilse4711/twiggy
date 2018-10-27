@@ -23,7 +23,19 @@ class LTurtleState:
 
     def roll(self,angle):
         self.ori.rotX(angle)
-        
+
+    def level(self):
+        V = Vec3(0, 1, 0)
+        H = self.getDir()
+        L = self.getRight()
+
+        # This is fishy ... all
+        U = V.cross(H)
+        L = H.cross(U)
+
+        self.setUp(U)
+        self.setRight(L)
+
     def move(self,length):
         x,y,z = self.ori[0]
         self.pos.x = self.pos.x  + x*length
@@ -36,11 +48,20 @@ class LTurtleState:
     def getDir(self):
         return self.ori.rowAsVec3(0)
 
+    def setDir(self, v):
+        self.ori.mat[0] = v.toList()
+
     def getUp(self):
         return self.ori.rowAsVec3(1)
 
+    def setUp(self, v):
+        self.ori.mat[1] = v.toList()
+
     def getRight(self):
         return self.ori.rowAsVec3(2)
+
+    def setRight(self, v):
+        self.ori.mat[2] = v.toList()
 
     def orientation(self):
         return self.ori.orientation()
@@ -68,7 +89,10 @@ class Turtle(ModuleVisitor):
         
     def visit_p(self,module):
         self.pitch(module)
-        
+
+    def visit_l(self, module):
+        self.level(module)
+
     def visit_c(self,module):
         self.setColor(module)
         
@@ -150,6 +174,11 @@ class Turtle(ModuleVisitor):
         if self.inPoly:
             raise LException("p() not allowed inside a polygon")
         self.state.pitch(module.angle)
+
+    def level(self, module):
+        if self.inPoly:
+            raise LException("p() not allowed inside a polygon")
+        self.state.level()
 
     def setColor(self,module):
         self.state.color = module.color

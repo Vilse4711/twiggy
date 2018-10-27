@@ -8,36 +8,36 @@ from production import Production
 from gllsystem import Renderer
 from lsystem import LSystem
 
-topiary_1 =  Translation(Scaling(Cube(),Vec3(50,100,100)),Vec3(25,0,0))
-topiary_2 =  Translation(Scaling(Sphere(),Vec3(80,80,80)),Vec3(80,0,0))
-topiary_3 =  Translation(Scaling(Cube(),Vec3(50,100,100)),Vec3(25,0,0))
-topiary_4 =  Translation(Scaling(Sphere(),Vec3(100,100,100)),Vec3(100,0,0))
-topiary = Union(topiary_3,topiary_4)
+topiary_1 = Translation(Scaling(Cube(),Vec3(100, 50, 100)), Vec3(0, 25, 0))
+topiary_2 = Translation(Scaling(Sphere(),Vec3(80, 80, 80)), Vec3(0, 80, 0))
+topiary_3 = Translation(Scaling(Cube(),Vec3(100, 50, 100)), Vec3(0, 25, 0))
+topiary_4 = Translation(Scaling(Sphere(),Vec3(100, 100, 100)), Vec3(0, 100, 0))
+topiary = Union(topiary_3, topiary_4)
 
 class A(Module):
-    def __init__(self,k,l,w):
+    def __init__(self, k, l, w):
         self.k = k
         self.l = l
         self.w = w
         
     def __repr__(self):
-        return "A(%s,%s,%s)" % (self.k,self.l,self.w)
+        return "A(%s,%s,%s)" % (self.k, self.l, self.w)
             
     def interpret(self,data):
         return W()
 
 class B(Module):
-    def __init__(self,m,n,l,w):
+    def __init__(self, m, n, l, w):
         self.m = m
         self.n = n
         self.l = l
         self.w = w
         
     def __repr__(self):
-        return "B(%s,%s)" % (self.m,self.n)
+        return "B(%s,%s)" % (self.m, self.n)
 
     def interpret(self,data):
-        return [c((1,0,0)),p(45),w(1),F(data.ls/2),W()]
+        return [c((1, 0, 0)), p(45), w(1), F(data.ls/2), W()]
 
 class I(Module):
     def __init__(self,length,factor):
@@ -45,7 +45,7 @@ class I(Module):
         self.factor = factor
         
     def interpret(self,data):
-        return c((128/255.0,128/255.0,64/255.0)),F(self.length,self.factor)
+        return c((128/255.0, 128/255.0, 64/255.0)), F(self.length, self.factor)
     
 class T(Module):
     def __repr__(self):
@@ -69,18 +69,18 @@ class W(Module):
     def __repr__(self):
         return "W()"
 
-    def interpret(self,data):
+    def interpret(self, data):
         # Polygons are drawn in the x/z-plane so we are constrained to yaw-rotations
-        return [c((0,1,0)),PB(),t(-60),f(data.ls),t(60),f(data.ls),t(60),f(data.ls),t(60),f(data.ls),t(60),f(data.ls),t(60),PE()]
+        return [c((0, 1, 0)), PB(), t(-60), f(data.ls), t(60), f(data.ls), t(60), f(data.ls), t(60), f(data.ls), t(60), f(data.ls), t(60), PE()]
 
 class L0(Module):
-    def __init__(self,length):
+    def __init__(self, length):
         self.length = length
 
     def __repr__(self):
         return "L0(%s)" % (self.length)
 
-    def interpret(self,data):
+    def interpret(self, data):
         _l = self.length
         return f(_l/2),LB(),p(45),f(data.ls),W(),RB(),r(90),LB(),p(45),f(data.ls),W(),RB(),f(_l/2),r(90),LB(),p(45),f(data.ls),W(),RB(),r(90),LB(),p(45),f(data.ls),W(),RB()
 
@@ -139,7 +139,7 @@ class P2(Production):
 
     def produce(self,actuals,data):
         f = actuals.unpack(ASC.SP)
-        print "Propagate"
+        # print "Propagate"
         return S(),I(f.length,f.factor)
 
 class P3(Production):
@@ -154,7 +154,7 @@ class P3(Production):
         
         k = data.a*b.m+data.b*b.n+data.c
         P4.i += 1
-        print "Wake up:", P4.i
+        # print "Wake up:", P4.i
         return [y(data.alpha),I(b.l,data.dw),A(k,b.l*data.dl,b.w*data.dw),Q()]
 
 class P4(Production):
