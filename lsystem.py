@@ -3,7 +3,7 @@ import copy
 from types import TupleType,ListType
 from lexception import LException
 from module import *
-from production import LProduction
+from production import Production
 from context import FSC
 from lstring import LString
 from turtle import Turtle
@@ -45,7 +45,7 @@ class LSystem:
         self._lastInterpreted = None
 
     def declare(self,production):
-        if not isinstance(production,LProduction):
+        if not isinstance(production, Production):
             raise LException("LSystem.declare(): %s is not an LProduction" % production)
         
         formals = production.context()
@@ -179,7 +179,7 @@ def _decompose(lstring,data):
             new.extend(_decompose(LString(flatten([d])),data))
         elif d == EPSILON:
             continue
-        elif isinstance(d,LModule):
+        elif isinstance(d, BaseModule):
             if d == m:
                 # Fixed point
                 new.append(d)
@@ -202,10 +202,10 @@ def _interpret(lstring,data,turtle):
             new.extend(_interpret(LString(flatten([d])),data,turtle))
         elif d == EPSILON:
             continue
-        elif isinstance(d,PrimitiveLModule):
+        elif isinstance(d, PrimitiveModule):
             d.accept(turtle)
             new.append(d)
-        elif isinstance(d,LModule):
+        elif isinstance(d, BaseModule):
             new.extend(_interpret(LString([d]),data,turtle))
         else:
             raise LException("Unknown object %s returned during %s.decompose()" % (d,m))

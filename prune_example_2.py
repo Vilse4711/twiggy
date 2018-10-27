@@ -2,7 +2,7 @@ import random
 from csg import *
 from module import *
 from context import FSC,ASC
-from production import LProduction
+from production import Production
 from gllsystem import Renderer
 from lsystem import LSystem
 
@@ -12,7 +12,7 @@ topiary_3 =  Translation(Scaling(Cube(),Vec3(50,100,100)),Vec3(25,0,0))
 topiary_4 =  Translation(Scaling(Sphere(),Vec3(100,100,100)),Vec3(100,0,0))
 topiary = Union(topiary_3,topiary_4)
 
-class A(CompositeLModule):
+class A(Module):
     def __init__(self,k,l,w):
         self.k = k
         self.l = l
@@ -24,7 +24,7 @@ class A(CompositeLModule):
     def interpret(self,data):
         return f(-self.l),L0(self.l)
 
-class B(CompositeLModule):
+class B(Module):
     def __init__(self,m,n,l,w):
         self.m = m
         self.n = n
@@ -39,7 +39,7 @@ class B(CompositeLModule):
 ##        return [p(45),w(1),F(data.ls/2),W()]
 ####        return [p(45),w(1),F(data.ls/2),L1(data.ls)]
 
-class I(CompositeLModule):
+class I(Module):
     def __init__(self,length,factor):
         self.length = length
         self.factor = factor
@@ -47,28 +47,28 @@ class I(CompositeLModule):
     def interpret(self,data):
         return c((128/255.0,128/255.0,64/255.0)),F(self.length,self.factor)
     
-class T(CompositeLModule):
+class T(Module):
     def __repr__(self):
         return "T()"
 
     def interpret(self,data):
         return L0(data.min/2)
     
-class T0(CompositeLModule):
+class T0(Module):
     def __repr__(self):
         return "T()"
 
     def interpret(self,data):
         return L0(data.min/2)
 
-class S(CompositeLModule):
+class S(Module):
     def __repr__(self):
         return "S()"
 
 ##    def interpret(self,data):
 ##        return [c((1,1,0)),O(5)]
     
-class W(CompositeLModule):
+class W(Module):
     def __repr__(self):
         return "W()"
 
@@ -76,7 +76,7 @@ class W(CompositeLModule):
         # Polygons are drawn in the x/z-plane so we are constrained to yaw-rotations
         return [c((0,1,0)),PB(),t(-60),f(data.ls),t(60),f(data.ls),t(60),f(data.ls),t(60),f(data.ls),t(60),f(data.ls),t(60),PE()]
 
-class L0(CompositeLModule):
+class L0(Module):
     def __init__(self,length):
         self.length = length
 
@@ -87,7 +87,7 @@ class L0(CompositeLModule):
         _l = self.length
         return f(_l/2),LB(),p(45),f(data.ls),W(),RB(),r(90),LB(),p(45),f(data.ls),W(),RB(),f(_l/2),r(90),LB(),p(45),f(data.ls),W(),RB(),r(90),LB(),p(45),f(data.ls),W(),RB()
 
-class L1(CompositeLModule):
+class L1(Module):
     def __init__(self,length):
         self.length = length
 
@@ -98,7 +98,7 @@ class L1(CompositeLModule):
         _l = self.length
         return [p(45),L0(_l/2),RB(),r(90),LB(),p(45),L0(_l/2),RB(),r(90),f(_l/2),r(90),LB(),p(45),L0(_l/2),RB(),r(90),LB(),p(45),L0(_l/2)]
 
-class P0(LProduction):
+class P0(Production):
     def context(self):
         return FSC(None,[A],[Q])
 
@@ -129,14 +129,14 @@ class P0(LProduction):
         else:
             return 2
 
-class P1(LProduction):
+class P1(Production):
     def context(self):
         return FSC(None,[I],[T])
 
     def produce(self,actuals,data):
         return S()
         
-class P2(LProduction):
+class P2(Production):
     def context(self):
         return FSC(None,[I],[S])
 
@@ -145,7 +145,7 @@ class P2(LProduction):
         print "Propagate"
         return S(),I(f.length,f.factor)
 
-class P3(LProduction):
+class P3(Production):
     def __init__(self):
         P4.i = 0
         
@@ -160,7 +160,7 @@ class P3(LProduction):
         print "Wake up:", P4.i
         return [y(data.alpha),I(b.l,data.dw),A(k,b.l*data.dl,b.w*data.dw),Q()]
 
-class P4(LProduction):
+class P4(Production):
     def context(self):
         return FSC(None,[B],[I])
 
@@ -168,7 +168,7 @@ class P4(LProduction):
         b = actuals.unpack(ASC.SP)
         return B(b.m+1,b.n+1,b.l,b.w)        
 
-class P5(LProduction):
+class P5(Production):
     def context(self):
         return FSC(None,[S],None)
 
@@ -176,7 +176,7 @@ class P5(LProduction):
         return EPSILON
     
 # Not in the rule set in the article "Synthetic Topiary"
-class P6(LProduction):
+class P6(Production):
     def context(self):
         return FSC(None,[T],None)
 

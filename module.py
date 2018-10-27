@@ -1,7 +1,7 @@
 from lexception import LException
 
-class LModule:
-    """Abstract L-System Module class"""
+class BaseModule:
+    """Base L-System Module class"""
     def decompose(self,data):
         """Recursively decompose the LModule until a fixed point is reached"""
         return EPSILON
@@ -22,14 +22,14 @@ class LModule:
     def getData(self):
         """Retrieve data associated with an LModule"""
         return self._data
-    
-class MetaModule(LModule):
+
+class MetaModule(BaseModule):
     """Markers"""
 CUT = MetaModule() # Denotes throw away the rest of the branch
 EPSILON = MetaModule() # Denotes the empty successor
 FAIL = MetaModule() # Denotes cond failing in, lc < pred > rc : cond --> succ
    
-class PrimitiveLModule(LModule):
+class PrimitiveModule(BaseModule):
     """Abstract primitive L-System Module class"""
     def decompose(self,data):
         # Default behavior is identity decomposition
@@ -43,7 +43,7 @@ class PrimitiveLModule(LModule):
         # PrimitiveLModules has to override this
         raise LException("Abstract method")
         
-class CompositeLModule(LModule):
+class Module(BaseModule):
     """Abstract composite L-System Module class from which all non primitive modules should be derived from"""
     def decompose(self,data):
         # Default behavior is identity
@@ -54,7 +54,7 @@ class CompositeLModule(LModule):
         return EPSILON
     
 # Set roll
-class r(PrimitiveLModule):
+class r(PrimitiveModule):
     """Specifies a rotation around the forward-axis, i.e. Roll"""
     
     def __init__(self,angle):
@@ -67,7 +67,7 @@ class r(PrimitiveLModule):
         v.visit_r(self)
 
 # Set yaw
-class y(PrimitiveLModule):
+class y(PrimitiveModule):
     """Specifies a rotation around the up-axis, i.e. Yaw"""
     
     def __init__(self,angle):
@@ -80,7 +80,7 @@ class y(PrimitiveLModule):
         v.visit_y(self)
 
 # Set pitch
-class p(PrimitiveLModule):
+class p(PrimitiveModule):
     """Specifies a rotation around the right-axis, i.e. Pitch"""
         
     def __init__(self,angle):
@@ -93,7 +93,7 @@ class p(PrimitiveLModule):
         v.visit_p(self)
 
 # Set width
-class w(PrimitiveLModule):
+class w(PrimitiveModule):
     """Specifies width"""
     
     def __init__(self,width):
@@ -106,7 +106,7 @@ class w(PrimitiveLModule):
         v.visit_w(self)
 
 # Set color
-class c(PrimitiveLModule):
+class c(PrimitiveModule):
     """Specifies color"""
     
     def __init__(self,color):
@@ -118,7 +118,7 @@ class c(PrimitiveLModule):
     def accept(self,v):
         v.visit_c(self)
 
-class F(PrimitiveLModule):
+class F(PrimitiveModule):
     """Specifies continuous growth of length"""
     
     def __init__(self,length,*args):
@@ -135,7 +135,7 @@ class F(PrimitiveLModule):
     def accept(self,v):
         v.visit_F(self)
 
-class f(PrimitiveLModule):
+class f(PrimitiveModule):
     """Specifies a jump of length. Records vertex if in polygon"""
     
     def __init__(self,length):
@@ -148,7 +148,7 @@ class f(PrimitiveLModule):
     def accept(self,v):
         v.visit_f(self)
 
-class O(PrimitiveLModule):
+class O(PrimitiveModule):
     """Specifies a sphere"""
 
     def __init__(self,radius):
@@ -161,7 +161,7 @@ class O(PrimitiveLModule):
     def accept(self,v):
         v.visit_O(self)
 
-class Q(PrimitiveLModule):
+class Q(PrimitiveModule):
     """Query module"""
     def __init__(self):
         self.pos = None
@@ -175,7 +175,7 @@ class Q(PrimitiveLModule):
     def accept(self,v):
         v.visit_Q(self)
 
-class t(PrimitiveLModule):
+class t(PrimitiveModule):
     """Turning inside a polygon"""
     def __init__(self,angle):
         self.angle = angle
@@ -186,7 +186,7 @@ class t(PrimitiveLModule):
     def accept(self,v):
         v.visit_t(self)
         
-class PB(PrimitiveLModule):
+class PB(PrimitiveModule):
     def __init__(self):
         self.state = None
 
@@ -196,21 +196,21 @@ class PB(PrimitiveLModule):
     def accept(self,v):
         v.visit_PB(self)
 
-class PE(PrimitiveLModule):
+class PE(PrimitiveModule):
     def __repr__(self):
         return "PE()"
 
     def accept(self,v):
         v.visit_PE(self)
             
-class LB(PrimitiveLModule):
+class LB(PrimitiveModule):
     def __repr__(self):
         return "LB()"
 
     def accept(self,v):
         v.visit_LB(self)
         
-class RB(PrimitiveLModule):
+class RB(PrimitiveModule):
     def __repr__(self):
         return "RB()"
 

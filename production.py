@@ -1,4 +1,4 @@
-class LProduction:
+class Production:
     
     def produce(self,actuals,data):
         raise LException("Abstract method: LProduction.produce()")

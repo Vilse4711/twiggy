@@ -2,7 +2,7 @@ from module import *
 from lsystem import LSystem
 from gllsystem import Renderer
 from context import FSC,ASC
-from production import LProduction
+from production import Production
 import random
 import sys
 
@@ -15,7 +15,7 @@ def leaf(time,dw,size):
 def spiral(l,dw,la,ra):
     return p(la),F(l,dw),p(-la),r(ra)
 
-class A(CompositeLModule):
+class A(Module):
     def __init__(self,time,dl,dw):
         self.t = time
         self.dl = dl
@@ -37,7 +37,7 @@ class A(CompositeLModule):
         else:
             return self
 
-class I(CompositeLModule):
+class I(Module):
     def __init__(self,time,dl,dw):
         self.t = time
         self.dl = dl
@@ -54,7 +54,7 @@ class I(CompositeLModule):
 ##        return w(w0),p(30),F(l0,wN/w0),leaf(self.t,self.dw,s0),p(-30),r(50)
         return w(w0),spiral(l0,wN/w0,30,50),leaf(self.t,self.dw,s0)
 
-class B(CompositeLModule):
+class B(Module):
     def __init__(self,time):
         self.t = time
 
@@ -77,7 +77,7 @@ B.growthRate = 1.1
 B.growthPeriod = 10
 B.size = 3.0
 
-class L0(CompositeLModule):
+class L0(Module):
     def __init__(self,size):
         self.size = size
 
@@ -89,7 +89,7 @@ class L0(CompositeLModule):
         # Polygons are drawn in the x/z-plane so we are constrained to yaw-rotations
         return PB(),t(-60),f(size),t(60),f(size),t(60),f(size),t(60),f(size),t(60),f(size),t(60),PE()
 
-class P0(LProduction):
+class P0(Production):
     def context(self):
         return FSC(None,[A],None)
 
@@ -97,7 +97,7 @@ class P0(LProduction):
         a = actuals.unpack(ASC.SP)
         return A(a.t+data.dt,a.dl,a.dw)        
 
-class P1(LProduction):
+class P1(Production):
     def context(self):
         return FSC(None,[I],None)
 
@@ -105,7 +105,7 @@ class P1(LProduction):
         i = actuals.unpack(ASC.SP)
         return I(i.t+data.dt,i.dl,i.dw)        
 
-class P2(LProduction):
+class P2(Production):
     def context(self):
         return FSC(None,[B],None)
 
