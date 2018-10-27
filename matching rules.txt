@@ -1,0 +1,83 @@
+Candidate	Formal
+instance	class
+instance	List
+List		class
+List		List
+
+
+    # Figure 5 (A > C): Matching right context, lateral branches are implicitly ignored
+    # String: A [ B ] C
+    #         ^
+    #    |
+    # \  C
+    #  B |
+    #   \| The [ B ] branch is skipped
+    #    |
+    #    A
+    #    |
+    #
+
+
+    # Figure 6 (A > [ B ] C): Matching right context, remainder of lateral branch is implicitly ignored
+    # String: A [ B D ] C
+    #         ^
+    # D   |
+    #  \  C
+    #   B |
+    #    \| The D part of the [ B D ] branch is ignored
+    #     |
+    #     A
+    #     |
+    #
+
+
+    # Figure 7 (A > [ B ] D): Problem with multiple lateral branches when matching the right context
+    # String: A [ C ] [ B ] D
+    #         ^
+    #    |
+    # \  D  /
+    #  C | B
+    #   \|/  Fails to match context [ C ] != [ b ]
+    #    |
+    #    A
+    #    |
+    #
+
+
+    # Figure 8 (A > [ ] [ B ] D): Explicit enumeration of lateral branches in the right context
+    # String: A [ C ] [ B ] D
+    #         ^
+    #    |
+    # \  D  /
+    #  C | B
+    #   \|/  The [ C ] branch is ignored
+    #    |
+    #    A
+    #    |
+    #
+
+
+    # Figure 9 (C < A): Matching left context, beginning of the branch implicitly ignored
+    # String: C [ A ] B
+    #             ^
+    #    |
+    # \  B
+    #  A |
+    #   \| The [ module is ignored
+    #    |
+    #    C
+    #    |
+    #
+
+
+    # Figure 10 (C < B): Matching left context, lateral branches implicitly ignored
+    # String: C [ A ] B
+    #                 ^
+    #    |
+    # \  B
+    #  A |
+    #   \| The [ A ] branch is ignored
+    #    |
+    #    C
+    #    |
+    #
