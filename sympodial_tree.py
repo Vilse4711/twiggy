@@ -63,6 +63,6 @@ if __name__ == "__main__":
     ls = LSystem(0, data)
     ls.declare(P1())
     ls.declare(P2())
-    ls.setAxiom([A(100, 10)])
+    ls.setAxiom([A(80, 10)])
     ls.setDerivationDepth(10)
     Renderer(ls, None, scale=2.0).render()

@@ -5,7 +5,7 @@ from module import *
 from visitor import ModuleVisitor
 from lexception import LException
 
-class LTurtleState:
+class TurtleState:
     def __init__(self):
         self.ori = LCS()
         self.pos = Vec3(0.,0.,0.)
@@ -67,7 +67,7 @@ class LTurtleState:
         return self.ori.orientation()
 
     def copy(self):
-        cc = LTurtleState()
+        cc = TurtleState()
         cc.pos = Vec3(self.pos.x,self.pos.y,self.pos.z)
         cc.width = self.width
         cc.color = self.color
@@ -76,7 +76,7 @@ class LTurtleState:
         
 class Turtle(ModuleVisitor):
     def __init__(self):
-        self.state = LTurtleState()
+        self.state = TurtleState()
         self.inPoly = False
         self.trail = []
 
